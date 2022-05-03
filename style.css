@@ -1,0 +1,40 @@
+body {
+    font-family: monospace;
+    color: #f8f9fa;
+    background-color: #212529;
+    padding: 10px 13px;
+}
+
+.gamepad {
+    border: 1px #b2b3b52f solid;
+    box-shadow: #2c2c2c 0px 0px 7px 3px;
+    border-radius: .3rem;
+    padding: 15px;
+    padding-top: 0;
+    margin-bottom: 1rem;
+}
+
+.bg-primary {
+    background-color: #0dcaf0;
+    color: black;
+}
+
+.buttons {
+    margin: 0 0 .85rem 1rem;
+}
+
+.button {
+    padding: 4px 10px;
+    border: 1px #b2b3b52f solid;
+    border-radius: .2rem;
+    margin-right: .3rem;
+}
+
+.axes {
+    margin-left: 1.1rem;
+}
+
+.axis {
+    width: 15%;
+    height: 17px;
+}
