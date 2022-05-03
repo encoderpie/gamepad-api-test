@@ -16,7 +16,7 @@ body {
 
 .bg-primary {
     background-color: #0dcaf0;
-    color: black;
+    color: #212529;
 }
 
 .buttons {
@@ -37,4 +37,20 @@ body {
 .axis {
     width: 15%;
     height: 17px;
+}
+
+.vibrate-button {
+    background-color: transparent;
+    border: limegreen 1px solid;
+    border-radius: .2rem;
+    padding: 6px 13px;
+    color: #f8f9fa;
+    cursor: pointer;
+    margin-top: .7rem;
+    transition: all .15s;
+}
+
+.vibrate-button:hover {
+    background-color: rgba(50, 205, 50, 0.796);
+    color: #212529;
 }

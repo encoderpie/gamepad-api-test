@@ -9,6 +9,16 @@ function connecthandler(e) {
   addgamepad(e.gamepad)
 }
 
+function vibrate(gamepadIndex) {
+  let gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [])
+  gamepads[gamepadIndex].vibrationActuator.playEffect('dual-rumble', {
+    startDelay: 0,
+    duration: 2000,
+    weakMagnitude: 1,
+    strongMagnitude: 1,
+  })
+}
+
 let axis_count = 0
 function addgamepad(gamepad) {
   controllers[gamepad.index] = gamepad
@@ -53,6 +63,11 @@ function addgamepad(gamepad) {
     axis_count += 1
   }
   gamepad_box.appendChild(axes)
+  let vibrateButton = document.createElement('button')
+  vibrateButton.setAttribute('onclick', 'vibrate('+gamepad.index+')')
+  vibrateButton.className = 'vibrate-button'
+  vibrateButton.innerText = 'Vibrate Gamepad'
+  gamepad_box.appendChild(vibrateButton)
   document.getElementById("start").style.display = "none"
   document.body.appendChild(gamepad_box)
   rAF(updateStatus)
