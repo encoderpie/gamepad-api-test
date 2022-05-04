@@ -11,11 +11,13 @@ function connecthandler(e) {
 
 function vibrate(gamepadIndex) {
   let gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : [])
+  let intensity = document.getElementById('intensity_controller'+gamepadIndex).value
+  let duration = document.getElementById('duration_controller'+gamepadIndex).value
   gamepads[gamepadIndex].vibrationActuator.playEffect('dual-rumble', {
     startDelay: 0,
-    duration: 2000,
-    weakMagnitude: 1,
-    strongMagnitude: 1,
+    duration: parseInt(duration+'000'),
+    weakMagnitude: parseInt(intensity)/100,
+    strongMagnitude: parseInt(intensity)/100,
   })
 }
 
@@ -63,6 +65,32 @@ function addgamepad(gamepad) {
     axis_count += 1
   }
   gamepad_box.appendChild(axes)
+  let vibrateButtonIntensityTitle = document.createElement('h4')
+  vibrateButtonIntensityTitle.innerText = 'Vibration Intensity'
+  vibrateButtonIntensityTitle.className = 'title'
+  gamepad_box.appendChild(vibrateButtonIntensityTitle)
+  let vibrateButtonIntensity = document.createElement('input')
+  vibrateButtonIntensity.setAttribute('type', 'range')
+  vibrateButtonIntensity.setAttribute('min', 0)
+  vibrateButtonIntensity.setAttribute('value', 90)
+  vibrateButtonIntensity.setAttribute('max', 100)
+  vibrateButtonIntensity.setAttribute('v-model', 'magnitude')
+  vibrateButtonIntensity.className = 'intensity'
+  vibrateButtonIntensity.setAttribute('id', 'intensity_controller' + gamepad.index)
+  gamepad_box.appendChild(vibrateButtonIntensity)
+  gamepad_box.appendChild(document.createElement('br'))
+
+  let durationValueTitle = document.createElement('h4')
+  durationValueTitle.innerText = 'Vibration Duration (second)'
+  durationValueTitle.className = 'title'
+  gamepad_box.appendChild(durationValueTitle)
+  let durationValue = document.createElement('input')
+  durationValue.setAttribute('type', 'number')
+  durationValue.setAttribute('value', 3)
+  durationValue.className = 'duration'
+  durationValue.setAttribute('id', 'duration_controller' + gamepad.index)
+  gamepad_box.appendChild(durationValue)
+  gamepad_box.appendChild(document.createElement('br'))
   let vibrateButton = document.createElement('button')
   vibrateButton.setAttribute('onclick', 'vibrate('+gamepad.index+')')
   vibrateButton.className = 'vibrate-button'

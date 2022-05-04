@@ -54,3 +54,22 @@ body {
     background-color: rgba(50, 205, 50, 0.796);
     color: #212529;
 }
+
+.title {
+    margin-bottom: .4rem;
+}
+
+.intensity {
+    margin-left: 1rem;
+    width: 15%;
+}
+
+.duration {
+    margin-left: 1rem;
+    background-color: transparent;
+    border: limegreen 1px solid;
+    border-radius: .2rem;
+    color: #f8f9fa;
+    max-width: 30px;
+    padding: 4px 0 4px 7px;
+}
