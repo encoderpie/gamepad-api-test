@@ -26,7 +26,7 @@ function addgamepad(gamepad) {
   gamepad_box.className = 'gamepad'
   gamepad_box.setAttribute("id", "controller" + gamepad.index)
   let box_title = document.createElement('h3')
-  box_title.innerText = "Gamepad: " + gamepad.id
+  box_title.innerHTML = "<i class='fa-solid fa-gamepad'></i> Gamepad: " + gamepad.id
   gamepad_box.appendChild(box_title)
   let buttons = document.createElement("div")
   let buttons_title = document.createElement("h4")
