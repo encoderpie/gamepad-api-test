@@ -1,13 +1,11 @@
 body {
     font-family: monospace;
     color: #f8f9fa;
-    background-color: #212529;
-    padding: 10px 13px;
+    background-color: #0d0c14;
 }
 
 .gamepad {
     border: 1px #b2b3b52f solid;
-    box-shadow: #2c2c2c 0px 0px 7px 3px;
     border-radius: .3rem;
     padding: 15px;
     padding-top: 0;
@@ -19,17 +17,20 @@ body {
     color: #212529;
 }
 
-.buttons {
-    margin: 0 0 .85rem 1rem;
+  
+/*meter*/.axis {
+    min-width: 200px;
+    margin: 1em;
 }
-
+  
 .button {
-    padding: 4px 10px;
-    border: 1px #b2b3b52f solid;
-    border-radius: .2rem;
-    margin-right: .3rem;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAAXNSR0IArs4c6QAAAAxJREFUCNdjYPjPAAACAgEAqiqeJwAAAABJRU5ErkJggg==);
+    background-size: 0% 0%;
+    background-position: 100% 100%;
+    background-repeat: repeat-x;
+    padding: 5px;
 }
-
+  
 .axes {
     margin-left: 1.1rem;
 }
@@ -51,7 +52,7 @@ body {
 }
 
 .vibrate-button:hover {
-    background-color: rgba(50, 205, 50, 0.796);
+    background-color: rgba(50, 205, 50, 0.833);
     color: #212529;
 }
 
@@ -73,3 +74,48 @@ body {
     max-width: 30px;
     padding: 4px 0 4px 7px;
 }
+
+
+.pressed {
+    outline: 2px solid rgba(50, 205, 50, 0.268);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+  
+.touched::after {
+    content: "touch";
+    display: block;
+    position: absolute;
+    margin-top: 0.2em;
+    margin-left: -0.5em;
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+input[type='range'] {
+    -webkit-appearance: none;  /* Webkit tarayıcılar için varsayılan görünümü kaldırır */
+    width: 100%; /* Slider'ın genişliğini ayarlar */
+    height: 5px; /* Slider'ın yüksekliğini ayarlar */
+    background: #ddd; /* Slider'ın arka plan rengini ayarlar */
+    outline: none; /* Odağa alındığında dış çerçeveyi kaldırır */
+    opacity: 0.7; /* Slider'ın saydamlığını ayarlar */
+    -webkit-transition: .2s; /* Geçiş animasyon süresi */
+    transition: opacity .2s;
+  }
+  
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Webkit tarayıcılar için thumb'ın varsayılan görünümünü kaldırır */
+    appearance: none;
+    width: 20px; /* Thumb'ın genişliğini ayarlar */
+    height: 20px; /* Thumb'ın yüksekliğini ayarlar */
+    background: #4CAF50; /* Thumb'ın arka plan rengini ayarlar */
+    cursor: pointer; /* İmleç stilini pointer olarak ayarlar */
+  }
+  
+  input[type='range']::-moz-range-thumb {
+    width: 20px;  /* Firefox için thumb'ın genişliğini ayarlar */
+    height: 20px; /* Firefox için thumb'ın yüksekliğini ayarlar */
+    background: #4CAF50; /* Firefox için thumb'ın arka plan rengini ayarlar */
+    cursor: pointer;
+  }
+  

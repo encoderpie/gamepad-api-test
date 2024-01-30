@@ -4,15 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gamepad - Joystick Test</title>
+    <title>Gamepad - Joystick Tester</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="style.css">    
+    <link rel="stylesheet" href="style.css">   
+    <script src="https://cdn.tailwindcss.com"></script> 
 </head>
-<body>
-    <h2 id='start'>
-        <i class="fa-solid fa-gamepad"></i>
-        Press a button on your gamepad/joystick for testing
-    </h2>
-    <script src="gamepad.js"></script>
+<body class="bg-[#f1f2f4] text-xl text-gray-800">
+    <header class="py-6 px-14 bg-gray-900 text-slate-200 flex items-center italic tracking-widest">
+        <div class="pe-8">
+            <i class="fa-solid text-5xl fa-gamepad"></i>
+        </div>
+        <div>
+            <div class="font-bold">ENCODERPIE</div>
+            <div>
+                GAMEPAD TESTER
+            </div>
+        </div>
+        <a href="https://encoderpie.vercel.app" class="ms-auto flex items-center hover:text-blue-300 hover:not-italic transition-all" target="_blank">
+            <div class="pe-3">PERSONAL</div>
+            <i class="fa-solid text-4xl fa-money-bill-wheat"></i>
+            <div class="ps-3">WEBSITE</div>
+        </a>
+        <a href="https://github.com/encoderpie" class="ms-auto flex items-center hover:text-blue-300 hover:not-italic transition-all ps-4" target="_blank">
+            <div class="pe-7">OTHER PROJECTS</div>
+            <i class="fa-brands text-5xl fa-github"></i>
+        </a>
+    </header>
+    <div class="p-5 md:p-10 space-y-10">
+        <h2 id='start' class="font-bolder">
+            <i class="fa-solid fa-gamepad me-2"></i>
+            Press a button on your gamepad/joystick for testing
+        </h2>
+        <div id="gamepadContainer" class="space-y-5"></div>
+        
+        <script src="gamepad.js"></script>
+    </div>
 </body>
 </html>
