@@ -93,29 +93,32 @@ body {
 }
 
 input[type='range'] {
-    -webkit-appearance: none;  /* Webkit tarayıcılar için varsayılan görünümü kaldırır */
-    width: 100%; /* Slider'ın genişliğini ayarlar */
-    height: 5px; /* Slider'ın yüksekliğini ayarlar */
-    background: #ddd; /* Slider'ın arka plan rengini ayarlar */
-    outline: none; /* Odağa alındığında dış çerçeveyi kaldırır */
-    opacity: 0.7; /* Slider'ın saydamlığını ayarlar */
-    -webkit-transition: .2s; /* Geçiş animasyon süresi */
+    -webkit-appearance: none;
+    width: 100%;
+    height: 5px;
+    background: #ddd;
+    outline: none; 
+    opacity: 0.7;
+    -webkit-transition: .2s; 
     transition: opacity .2s;
-  }
+    border-radius: 3px;
+}
   
-  input[type='range']::-webkit-slider-thumb {
-    -webkit-appearance: none; /* Webkit tarayıcılar için thumb'ın varsayılan görünümünü kaldırır */
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
     appearance: none;
-    width: 20px; /* Thumb'ın genişliğini ayarlar */
-    height: 20px; /* Thumb'ın yüksekliğini ayarlar */
-    background: #4CAF50; /* Thumb'ın arka plan rengini ayarlar */
-    cursor: pointer; /* İmleç stilini pointer olarak ayarlar */
-  }
-  
-  input[type='range']::-moz-range-thumb {
-    width: 20px;  /* Firefox için thumb'ın genişliğini ayarlar */
-    height: 20px; /* Firefox için thumb'ın yüksekliğini ayarlar */
-    background: #4CAF50; /* Firefox için thumb'ın arka plan rengini ayarlar */
+    width: 20px;
+    height: 20px; 
+    background: #66b068; 
     cursor: pointer;
-  }
+    border-radius: 3px;
+}
+
+input[type='range']::-moz-range-thumb {
+    width: 20px;  
+    height: 20px;
+    background: #66b068;
+    cursor: pointer;
+    border-radius: 3px;
+}
   

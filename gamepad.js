@@ -6,7 +6,9 @@ var rAF = window.mozRequestAnimationFrame ||
 
 const controllers = {}
 const gamepadlist = document.getElementById("gamepadContainer")
-  
+const startElement = document.getElementById('start')
+let default_text = startElement.innerHTML
+
 const products = [
   {Vendor: '0000', Product: '006f', Name: 'JessTechColourRumblePad'},
   {Vendor: '0001', Product: '0329', Name: 'Sl6566'},
@@ -55,19 +57,31 @@ const getGamepadName = (gamepad) => {
   }
 }
 
-function vibrateGamepad(gamepadIndex) {
-  const duration = document.getElementById(`vibration-duration-${gamepadIndex}`).value;
-  const weakMagnitude = document.getElementById(`vibration-weak-${gamepadIndex}`).value;
-  const strongMagnitude = document.getElementById(`vibration-strong-${gamepadIndex}`).value;
+const vibrateGamepad = (gamepadIndex) => {
+  const totalDurationInSeconds = parseInt(document.getElementById(`vibration-duration-${gamepadIndex}`).value, 10)
+  const weakMagnitude = parseFloat(document.getElementById(`vibration-weak-${gamepadIndex}`).value)
+  const strongMagnitude = parseFloat(document.getElementById(`vibration-strong-${gamepadIndex}`).value)
 
   const gamepad = controllers[gamepadIndex];
   if (gamepad && gamepad.vibrationActuator && gamepad.vibrationActuator.type === "dual-rumble") {
-    gamepad.vibrationActuator.playEffect("dual-rumble", {
-      startDelay: 0,
-      duration: parseInt(duration, 10),
-      weakMagnitude: parseFloat(weakMagnitude),
-      strongMagnitude: parseFloat(strongMagnitude)
-    });
+    const maxSingleDuration = 5000
+    let elapsed = 0
+
+    const repeatVibration = () => {
+      if (elapsed < totalDurationInSeconds) {
+        gamepad.vibrationActuator.playEffect("dual-rumble", {
+          startDelay: 0,
+          duration: Math.min(maxSingleDuration, (totalDurationInSeconds - elapsed) * 1000),
+          weakMagnitude: weakMagnitude,
+          strongMagnitude: strongMagnitude
+        });
+
+        elapsed += 5
+        setTimeout(repeatVibration, maxSingleDuration)
+      }
+    }
+
+    repeatVibration()
   }
 }
 
@@ -83,7 +97,7 @@ const createGamepadElement = (gamepad) => {
   const axesHtml = gamepad.axes.map((axis, index) => 
     `<div class="mx-auto axis-${index}">
        <div class="opacity-60">Axis ${index}</div>
-       <div>Value: ${axis.toFixed(2)}</div>
+       <div>0: ${axis.toFixed(2)}</div>
      </div>`
   ).join('')
 
@@ -99,24 +113,35 @@ const createGamepadElement = (gamepad) => {
     </div>
   `
   const vibrationControlsHtml = `
-    <div class="text-base grid grid-cols-4 gap-4">
-      <div>
+    <div class="text-base grid grid-cols-4 divide-x">
+      <div class="pe-5">
         <label>Weak Magnitude</label>
-        <input type="range" id="vibration-weak-${gamepad.index}" min="0" max="1" step="0.1" value="1.0" class="w-full">
+        <input type="range" id="vibration-weak-${gamepad.index}" min="0" max="1" step="0.01" value="1.0" class="w-full">
+        <div class="flex justify-between text-xs mt-0.5">
+          <span>0</span><span class="opacity-60">25</span><span>50</span><span class="opacity-60">75</span><span>100</span>
+        </div>
       </div>
-      <div>
+      <div class="px-5">
         <label>Strong Magnitude</label>
-        <input type="range" id="vibration-strong-${gamepad.index}" min="0" max="1" step="0.1" value="1.0" class="w-full">
+        <input type="range" id="vibration-strong-${gamepad.index}" min="0" max="1" step="0.01" value="1.0" class="w-full">
+        <div class="flex justify-between text-xs mt-0.5">
+          <span>0</span><span class="opacity-60">25</span><span>50</span><span class="opacity-60">75</span><span>100</span>
+        </div>
       </div>
-      <div>
-        <label>Duration (1s-5s)</label>
-        <input type="range" id="vibration-duration-${gamepad.index}" min="100" max="5000" value="5000" class="w-full">
+      <div class="px-5">
+        <label>Duration (second)</label>
+        <input type="number" id="vibration-duration-${gamepad.index}" value="5" class="w-[82px] outline-blue-300 bg-slate-50 rounded p-2 px-3">
+        <span title="The recommended maximum duration is 5 seconds. If you run it for a longer period, there may be momentary pauses in the vibration due to browser-related issues.">
+          <i class="fa-regular fa-lg text-slate-500/80 hover:text-slate-600 cursor-pointer fa-question-circle"></i>
+        </span>
       </div>
-      <div class="mx-auto">
-        <button onclick="vibrateGamepad(${gamepad.index})" class="bg-slate-100 hover:bg-slate-200/70 transition-all rounded p-3 px-6">Vibrate</button>
+      <div class="m-auto w-full ps-5">
+        <button onclick="vibrateGamepad(${gamepad.index})" class="w-full bg-slate-50 hover:bg-slate-100/70 transition-all rounded p-3 px-6">
+          Vibrate
+        </button>
       </div>
     </div>
-  `;
+  `
 
   const xyGraphHtml1 = createXYGraphHtml("1")
   const xyGraphHtml2 = createXYGraphHtml("2")
@@ -146,7 +171,7 @@ const createGamepadElement = (gamepad) => {
           </div>
           <div class="bg-white rounded p-1 outline outline-offset-4 outline-slate-200/70">
             <div class="opacity-60">TIMESTAMP</div>
-            <div class="timestamp">${gamepad.timestamp}</div>
+            <div class="timestamp truncate">${gamepad.timestamp}</div>
           </div>
           <div class="bg-white rounded p-1 outline outline-offset-4 outline-red-400/80">
             <div class="opacity-60">VIBRATION</div>
@@ -228,7 +253,7 @@ const updateStatus = () => {
     controller.axes.forEach((axis, axisIndex) => {
       const axisElement = controllerElement.getElementsByClassName(`axis-${axisIndex}`)[0]
       if (axisElement) {
-        axisElement.innerText = `Value: ${axis.toFixed(2)}`;
+        axisElement.innerText = `${axisIndex % 2 ? 'Y' : 'X'}: ${axis.toFixed(2)}`;
       }
     })
     
@@ -276,11 +301,11 @@ function updateXYGraph(controller, index, graphSuffix, xAxisIndex, yAxisIndex) {
 
 const gamepadHandler = (e, connected) => {
   const gamepad = e.gamepad
+  const gamepadDiv = document.getElementById(`controller_${gamepad.index}`)
 
   if (connected) {
     if (gamepad.index in controllers) {
       controllers[gamepad.index].connected = true
-      const gamepadDiv = document.getElementById(`controller_${gamepad.index}`)
       if (gamepadDiv) {
         gamepadDiv.classList.remove('opacity-50')
         const gamepadNameDiv = gamepadDiv.getElementsByClassName(`gamepad-name`)[0]
@@ -294,7 +319,6 @@ const gamepadHandler = (e, connected) => {
     }
   } else {
     console.log("Gamepad disconnected.", gamepad)
-    const gamepadDiv = document.getElementById(`controller_${gamepad.index}`)
     if (gamepadDiv) {
       gamepadDiv.classList.add('opacity-50')
       controllers[gamepad.index].connected = false
@@ -333,11 +357,9 @@ if (haveEvents) {
 }
 
 
-let default_text = document.getElementById('start').innerHTML
 let dot_count = 0
 const dotsAnimate = () => {
-    let dots = document.getElementById('start')
-    dots.innerHTML = default_text + '.'.repeat(dot_count)
+    startElement.innerHTML = default_text + '.'.repeat(dot_count)
     dot_count += 1
     if (dot_count > 3) {
         dot_count = 0
@@ -365,10 +387,10 @@ function createVirtualGamepad() {
 
   
   return {
-    id: "Sony Interactive Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 09cc)",
+    id: "Sony Interactive Wireless Controller (STANDARD GAMEPAD Vendor: 054ac Product: 09csc)",
     index: 0,
     connected: true,
-    timestamp: '92274.00000',
+    timestamp: '92274.0000aaaaaaaaa0',
     mapping: 'standard',
     axes: [0.6, 0.2, 0.2, 0.5], // Oyun pedinizdeki ekseni temsil eder
     buttons: combinedButtons,
