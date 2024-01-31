@@ -130,6 +130,7 @@ const createGamepadElement = (gamepad) => {
       </div>
       <div class="px-5">
         <label>Duration (second)</label>
+        </br>
         <input type="number" id="vibration-duration-${gamepad.index}" value="5" class="w-[82px] outline-blue-300 bg-slate-50 rounded p-2 px-3">
         <span title="The recommended maximum duration is 5 seconds. If you run it for a longer period, there may be momentary pauses in the vibration due to browser-related issues.">
           <i class="fa-regular fa-lg text-slate-500/80 hover:text-slate-600 cursor-pointer fa-question-circle"></i>
